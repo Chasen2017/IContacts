@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_add_contact"
+        android:icon="@drawable/ic_person_add"
+        android:title="@string/menu_add_contracts"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/menu_add_group"
+        android:icon="@drawable/ic_group_add"
+        android:title="@string/menu_add_group"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/menu_exit"
+        android:icon="@drawable/ic_exit"
+        android:title="@string/menu_exit"
+        app:showAsAction="collapseActionView" />
+</menu>
