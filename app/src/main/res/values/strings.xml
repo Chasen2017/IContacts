@@ -11,4 +11,27 @@
     <string name="menu_exit">退出</string>
     <string name="action_search">查找联系人</string>
     <string name="action_more">更多</string>
+    <string name="input_phone">号码</string>
+    <string name="input_group_name">请输入群组名称</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="error_group_name_empty">群组名称不能为空！</string>
+    <string name="error_group_name_exists">群组名称已存在，请重新命名！</string>
+    <string name="insert_success">插入成功！</string>
+    <string name="new_contact">新</string>
+    <string name="person_name">姓名</string>
+    <string name="person_gender">性别</string>
+    <string name="person_address">住址</string>
+    <string name="person_job">工作</string>
+    <string name="person_qq">QQ</string>
+    <string name="person_wechat">微信</string>
+    <string name="person_email">邮箱</string>
+    <string name="person_group">群组</string>
+    <string name="no_group_name">未分组</string>
+    <string name="error_QQ">QQ格式错误，请检查！</string>
+    <string name="error_email">邮箱格式错误！</string>
+    <string name="add_success">添加成功！</string>
+    <string name="error_gender">性别输入错误，请重新输入！</string>
+    <string name="choose_group">选择群组</string>
+    <string name="person_details">联系人详细信息</string>
 </resources>

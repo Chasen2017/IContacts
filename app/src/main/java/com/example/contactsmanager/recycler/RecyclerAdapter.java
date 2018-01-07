@@ -1,5 +1,6 @@
 package com.example.contactsmanager.recycler;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +21,30 @@ import butterknife.Unbinder;
  */
 
 public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder<Data>>
-implements View.OnClickListener, View.OnLongClickListener{
-
+        implements View.OnClickListener, View.OnLongClickListener, AdapterCallback<Data> {
 
 
     private final List<Data> mDataList = new ArrayList<Data>();
+
+    /**
+     * 复写默认的布局类型返回
+     *
+     * @param position 坐标
+     * @return 类型，其实复写后返回的都是xml文件的ID
+     */
+    @Override
+    public int getItemViewType(int position) {
+        return getItemViewType(position, mDataList.get(position));
+    }
+
+    /**
+     * 得到布局的类型
+     * @param position 坐标
+     * @param data 当前的数据
+     * @return xml文件的ID，用于创建ViewHolder
+     */
+    @LayoutRes
+    protected abstract int getItemViewType(int position, Data data);
 
 
     /**
@@ -43,18 +63,28 @@ implements View.OnClickListener, View.OnLongClickListener{
         // 通过子类必须实现的方法，得到一个ViewHolder
         ViewHolder<Data> holder = onCreateViewHolder(root, viewType);
 
+        // 设置View的Tag为ViewHolder，进行双向绑定
+        root.setTag(R.id.tag_recycler_holder);
         // 设置事件点击
         root.setOnClickListener(this);
         root.setOnLongClickListener(this);
-        // 设置View的Tag为ViewHolder，进行双向绑定
-        root.setTag(R.id.tag_recycler_holder);
+
 
         // 进行界面注解绑定
         holder.unbinder = ButterKnife.bind(holder, root);
+        // 绑定callback
+        holder.callback = this;
 
-        return null;
+        return holder;
     }
 
+    /**
+     * 得到一个新的ViewHolder
+     *
+     * @param root     根布局
+     * @param viewType xml 的id
+     * @return ViewHolder
+     */
     protected abstract ViewHolder<Data> onCreateViewHolder(View root, int viewType);
 
     /**
@@ -106,7 +136,8 @@ implements View.OnClickListener, View.OnLongClickListener{
 
         /**
          * Holder自己对自己的Data更新进行操作
-         * @param data
+         *
+         * @param data 绑定的数据
          */
         public void updateData(Data data) {
             if (this.callback != null) {

@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.contactsmanager.R;
 import com.example.contactsmanager.bean.Contact;
+import com.example.contactsmanager.bean.Group;
 import com.example.contactsmanager.bean.Person;
 import com.example.contactsmanager.db.ContactsDB;
 
@@ -40,11 +41,23 @@ public class TestActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_add)
     void onInsert() {
-        /*contactsDB.insertGroup(new Group("朋友"));
-        contactsDB.insertGroup(new Group("朋友啊"));
-        contactsDB.insertGroup(new Group("啊朋友"));*/
-    /*    contactsDB.insertPerson(new Person("A", "男", "广州市番禺区", "老师", 746973769,
-                "746973769", "746973769@qq.com", 1));*/
+
+
+
+        Person person1 = new Person("蔡创兴", "女", "汕头市龙湖区", "学生", 746973769,
+                "746973769", "746973769@qq.com", 1);
+        Person person2 = new Person("陈扬", "男", "广州市番禺区", "老师", 123456789,
+                "123456789", "123456789@qq.com", 2);
+        Person person3 = new Person("谢冬", "男", "广州市天河区", "程序员", 987654321,
+                "746973769", "746973769@qq.com", 3);
+        contactsDB.insertPerson(person1);
+        contactsDB.insertPerson(person2);
+        contactsDB.insertPerson(person3);
+
+        contactsDB.insertGroup(new Group("朋友"));
+        contactsDB.insertGroup(new Group("家人"));
+        contactsDB.insertGroup(new Group("同事"));
+
         Contact contact1 = new Contact("15626160969", 1);
         Contact contact2 = new Contact("13288066351", 2);
         Contact contact3 = new Contact("15992261507", 2);

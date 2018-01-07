@@ -39,6 +39,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        ActivityCollector.addActivity(this);
         initWidget();
         initData();
     }
@@ -150,5 +151,9 @@ public class SearchActivity extends AppCompatActivity {
         void search(String content);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 }

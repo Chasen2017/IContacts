@@ -1,17 +1,20 @@
 package com.example.contactsmanager.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * 联系方式表
  * Created by asus-pc on 2017/11/30.
  */
 
-public class Contact {
+public class Contact implements Serializable{
 
     private int cid; //ID
     private String phone; //手机号码
-
     private int pid; //联系人基本信息外键
-
 
     // 无参的构造
     public Contact() {}
@@ -21,6 +24,9 @@ public class Contact {
         this.phone = phone;
         this.pid = pid;
     }
+
+
+
 
     public int getCid() {
         return cid;
@@ -54,4 +60,5 @@ public class Contact {
                 ", pid=" + pid +
                 '}';
     }
+
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/edit_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_48"
+        android:layout_marginEnd="@dimen/len_2"
+        android:layout_marginStart="@dimen/len_4"
+        android:background="@null"
+        android:hint="@string/input_group_name"
+        android:paddingBottom="@dimen/len_8"
+        android:paddingTop="@dimen/len_8"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/textPrimary"
+        android:textColorHint="@color/textSecond"
+        android:textCursorDrawable="@drawable/ic_cursor"
+        android:textSize="@dimen/font_18" />
+
+   <LinearLayout
+       android:orientation="horizontal"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <net.qiujuer.genius.ui.widget.Button
+           android:id="@+id/btn_confirm"
+           android:layout_width="0dp"
+           android:layout_height="@dimen/len_44"
+           android:layout_margin="@dimen/len_4"
+           android:layout_weight="1"
+           android:background="@color/black_alpha_32"
+           android:text="@string/confirm"
+           android:textSize="@dimen/font_18"
+           app:gTouchColor="@color/colorAccentAlpha"
+           app:gTouchEffect="ripple" />
+
+       <net.qiujuer.genius.ui.widget.Button
+           android:id="@+id/btn_cancel"
+           android:layout_width="0dp"
+           android:layout_height="@dimen/len_44"
+           android:layout_margin="@dimen/len_4"
+           android:layout_weight="1"
+           android:background="@color/black_alpha_32"
+           android:text="@string/cancel"
+           android:textSize="@dimen/font_18"
+           app:gTouchColor="@color/colorAccentAlpha"
+           app:gTouchEffect="ripple" />
+   </LinearLayout>
+</LinearLayout>

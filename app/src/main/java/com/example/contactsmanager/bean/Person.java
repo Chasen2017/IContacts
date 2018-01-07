@@ -1,13 +1,18 @@
 package com.example.contactsmanager.bean;
 
-import java.util.List;
+import android.support.annotation.NonNull;
+
+import java.io.Serializable;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * 联系人基本信息类
  * Created by asus-pc on 2017/11/30.
  */
 
-public class Person {
+public class Person implements Comparable<Person>, Serializable {
 
     private int pid; //ID
     private String pname; //姓名
@@ -17,25 +22,27 @@ public class Person {
     private long QQ; //QQ
     private String wechat; // 微信
     private String email; //邮箱
-    private List<Contact> contactList;  //联系人的联系方式集合
+    private ArrayList<Contact> contactList;  //联系人的联系方式集合
     private int gid;  // 逻辑外键，群组分配的
 
     /**
      * 无参的构造
      */
     public Person() {
+        this.contactList = new ArrayList<>();
     }
 
     /**
      * 带参的构造方法，指定群组编号的情况
-     * @param pname 姓名
-     * @param gender 性别
+     *
+     * @param pname   姓名
+     * @param gender  性别
      * @param address 住址
-     * @param job 工作
-     * @param QQ  QQ
-     * @param wechat 微信
-     * @param email 邮箱
-     * @param gid 群组外键
+     * @param job     工作
+     * @param QQ      QQ
+     * @param wechat  微信
+     * @param email   邮箱
+     * @param gid     群组外键
      */
     public Person(String pname, String gender, String address, String job, long QQ, String wechat, String email, int gid) {
         this(pname, gender, address, job, QQ, wechat, email);
@@ -44,13 +51,14 @@ public class Person {
 
     /**
      * 带参的构造方法，不指定群组编号的情况
-     * @param pname 姓名
-     * @param gender 性别
+     *
+     * @param pname   姓名
+     * @param gender  性别
      * @param address 住址
-     * @param job 工作
-     * @param QQ  QQ
-     * @param wechat 微信
-     * @param email 邮箱
+     * @param job     工作
+     * @param QQ      QQ
+     * @param wechat  微信
+     * @param email   邮箱
      */
     public Person(String pname, String gender, String address, String job, long QQ, String wechat, String email) {
         this.pname = pname;
@@ -60,6 +68,7 @@ public class Person {
         this.QQ = QQ;
         this.wechat = wechat;
         this.email = email;
+        this.contactList = new ArrayList<>();
     }
 
     public int getPid() {
@@ -126,11 +135,11 @@ public class Person {
         this.email = email;
     }
 
-    public List<Contact> getContactList() {
+    public ArrayList<Contact> getContactList() {
         return contactList;
     }
 
-    public void setContactList(List<Contact> contactList) {
+    public void setContactList(ArrayList<Contact> contactList) {
         this.contactList = contactList;
     }
 
@@ -157,4 +166,14 @@ public class Person {
                 ", gid=" + gid +
                 '}';
     }
+
+    @Override
+    public int compareTo(@NonNull Person o) {
+        Collator instance = Collator.getInstance(Locale.CHINA);
+        return instance.compare(this.pname, o.pname);
+    }
+
+
+
+
 }

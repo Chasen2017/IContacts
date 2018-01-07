@@ -1,11 +1,16 @@
 package com.example.contactsmanager.bean;
 
+import android.support.annotation.NonNull;
+
+import java.text.Collator;
+import java.util.Locale;
+
 /**
  *  群组信息类
  * Created by asus-pc on 2017/11/30.
  */
 
-public class Group {
+public class Group implements Comparable<Group>{
     private int gid; //ID
     private String groupName; //群组名称
 
@@ -37,5 +42,11 @@ public class Group {
                 "gid=" + gid +
                 ", groupName='" + groupName + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NonNull Group o) {
+        Collator instance = Collator.getInstance(Locale.CHINA);
+        return instance.compare(this.groupName, o.groupName);
     }
 }

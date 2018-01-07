@@ -3,6 +3,7 @@ package com.example.contactsmanager.db;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.contactsmanager.bean.Contact;
 import com.example.contactsmanager.bean.Group;
@@ -52,12 +53,13 @@ public class ContactsDB {
     }
 
     /**
-     * 根据群组的编号删除群组
+     * 根据群组的编号删除群组并将联系人基本信息表中有gid的字段设置为null
      *
      * @param gid 群组的编号
      */
     public void delGroup(int gid) {
         db.execSQL("delete from TB_GROUP where gid=?", new Object[]{gid});
+        db.execSQL("update TB_PERSON set gid = ? where gid = ?", new Object[]{null, gid});
     }
 
     /**
@@ -77,7 +79,7 @@ public class ContactsDB {
      */
     public List<Group> queryGroups() {
         List<Group> groups = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select * from TB_GROUP", null);
+        Cursor cursor = db.rawQuery("select * from TB_GROUP order by gname asc", null);
         while (cursor.moveToNext()) {
             Group group = new Group();
             group.setGid(cursor.getInt(cursor.getColumnIndex("gid")));
@@ -97,7 +99,7 @@ public class ContactsDB {
      */
     public List<Group> vagueQueryGroups(String gname) {
         List<Group> groups = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select * from TB_GROUP where gname like ?", new String[]{"%" + gname + "%"});
+        Cursor cursor = db.rawQuery("select * from TB_GROUP where gname like ? order by gname asc", new String[]{"%" + gname + "%"});
         while (cursor.moveToNext()) {
             Group group = new Group();
             group.setGid(cursor.getInt(cursor.getColumnIndex("gid")));
@@ -216,7 +218,7 @@ public class ContactsDB {
      */
     public List<Person> queryPersonByName(String name) {
         List<Person> personList = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select * from TB_PERSON where pname like ?", new String[]{"%" + name + "%"});
+        Cursor cursor = db.rawQuery("select * from TB_PERSON where pname like ? order by pname asc", new String[]{"%" + name + "%"});
         while (cursor.moveToNext()) {
             Person person = new Person();
             person.setPid(cursor.getInt(cursor.getColumnIndex("pid")));
@@ -237,13 +239,41 @@ public class ContactsDB {
     }
 
     /**
-     * 拿到全部人的基本的信息
+     * 根据联系人的群组编号，查询群组的联系人成员
+     *
+     * @param gid 群组编号
+     * @return 联系人的基本信息列表
+     */
+    public List<Person> queryPersonByGid(int gid) {
+        List<Person> personList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from TB_PERSON where gid = ? order by pname asc", new String[]{gid+""});
+        while (cursor.moveToNext()) {
+            Person person = new Person();
+            person.setPid(cursor.getInt(cursor.getColumnIndex("pid")));
+            person.setPname(cursor.getString(cursor.getColumnIndex("pname")));
+            person.setGender(cursor.getString(cursor.getColumnIndex("gender")));
+            person.setAddress(cursor.getString(cursor.getColumnIndex("address")));
+            person.setJob(cursor.getString(cursor.getColumnIndex("job")));
+            person.setEmail(cursor.getString(cursor.getColumnIndex("e_mail")));
+            person.setQQ(cursor.getLong(cursor.getColumnIndex("QQ")));
+            person.setWechat(cursor.getString(cursor.getColumnIndex("wechat")));
+            person.setGid(cursor.getInt(cursor.getColumnIndex("gid")));
+            personList.add(person);
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
+        return personList;
+    }
+
+    /**
+     * 拿到全部人的基本的信息并降序排序
      *
      * @return 全部人的联系人的基本信息
      */
     public List<Person> queryAllPerson() {
         List<Person> personList = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select * from TB_PERSON", null);
+        Cursor cursor = db.rawQuery("select * from TB_PERSON order by pname asc", null);
         while (cursor.moveToNext()) {
             Person person = new Person();
             person.setPid(cursor.getInt(cursor.getColumnIndex("pid")));
@@ -290,11 +320,20 @@ public class ContactsDB {
      */
     public int queryPidByPname(String name) {
         int pid = -1;
-        Cursor cursor = db.rawQuery("select pid from TB_PERSON where pname = ?", new String[]{name});
-        while (cursor.moveToNext()) {
-            // 重名的情况下，// pid是自增的，选取最后一个即可
-            pid = cursor.getInt(cursor.getColumnIndex("pid"));
-        }
+        Cursor cursor;
+        // 名字不为空的情况下，直接查询
+       if (name != null) {
+           cursor = db.rawQuery("select pid from TB_PERSON where pname = ?", new String[]{name});
+           while (cursor.moveToNext()) {
+               // 重名的情况下，// pid是自增的，选取最后一个即可
+               pid = cursor.getInt(cursor.getColumnIndex("pid"));
+           }
+       } else { // 名字为空的情况下，遍历全部，找到最后一个就是了
+           cursor = db.rawQuery("select pid from TB_PERSON", null);
+           while (cursor.moveToNext()) {
+               pid = cursor.getInt(cursor.getColumnIndex("pid"));
+           }
+       }
         if (cursor != null) {
             cursor.close();
         }
