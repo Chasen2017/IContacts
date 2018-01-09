@@ -70,7 +70,7 @@ public class SearchActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
         // 找到搜索菜单
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         Log.d("TAG", "searchView");
         if (searchView != null) {
@@ -93,8 +93,10 @@ public class SearchActivity extends AppCompatActivity {
                     if (TextUtils.isEmpty(newText)) {
                         search("");
                         return true;
+                    } else {
+                        search(newText);
+                        return true;
                     }
-                    return false;
                 }
             });
         }

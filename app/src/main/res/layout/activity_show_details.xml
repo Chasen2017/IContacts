@@ -59,233 +59,191 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/len_4">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/txt_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="@dimen/len_128"
+                android:layout_margin="@dimen/len_8"
+                android:background="@drawable/bg_txt_border"
+                android:ellipsize="middle"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/new_contact"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_56" />
 
-                <TextView
-                    android:id="@+id/txt_portrait"
-                    android:layout_width="@dimen/len_128"
-                    android:layout_height="@dimen/len_128"
-                    android:layout_margin="@dimen/len_8"
-                    android:background="@drawable/bg_txt_border"
-                    android:gravity="center"
-                    android:text="@string/new_contact"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/font_90" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/edit_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginEnd="@dimen/len_2"
-                        android:layout_marginStart="@dimen/len_4"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="@string/person_name"
-                        android:paddingBottom="@dimen/len_8"
-                        android:paddingTop="@dimen/len_8"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/textPrimary"
-                        android:textColorHint="@color/textSecond"
-                        android:textCursorDrawable="@drawable/ic_cursor"
-                        android:textSize="@dimen/font_18" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="@color/black_alpha_32" />
-
-                    <EditText
-                        android:id="@+id/edit_gender"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginEnd="@dimen/len_2"
-                        android:layout_marginStart="@dimen/len_4"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="@string/person_gender"
-                        android:paddingBottom="@dimen/len_8"
-                        android:paddingTop="@dimen/len_8"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/textPrimary"
-                        android:textColorHint="@color/textSecond"
-                        android:textCursorDrawable="@drawable/ic_cursor"
-                        android:textSize="@dimen/font_18" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="@color/black_alpha_32" />
-
-                    <EditText
-                        android:id="@+id/edit_job"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginEnd="@dimen/len_2"
-                        android:layout_marginStart="@dimen/len_4"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="@string/person_job"
-                        android:paddingBottom="@dimen/len_8"
-                        android:paddingTop="@dimen/len_8"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/textPrimary"
-                        android:textColorHint="@color/textSecond"
-                        android:textCursorDrawable="@drawable/ic_cursor"
-                        android:textSize="@dimen/font_18" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="@color/black_alpha_32" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="1px"
+                android:background="@color/black_alpha_32" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-                <EditText
-                    android:id="@+id/edit_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/len_44"
-                    android:layout_marginEnd="@dimen/len_2"
-                    android:layout_marginStart="@dimen/len_8"
-                    android:background="@null"
-                    android:hint="@string/person_address"
-                    android:paddingBottom="@dimen/len_8"
-                    android:paddingTop="@dimen/len_8"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/textPrimary"
-                    android:textColorHint="@color/textSecond"
-                    android:textCursorDrawable="@drawable/ic_cursor"
-                    android:textSize="@dimen/font_18" />
+            <TextView
+                android:id="@+id/txt_gender"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/len_2"
+                android:layout_marginStart="@dimen/len_4"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/person_gender"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/len_8"
+                android:paddingTop="@dimen/len_8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/black"
+                android:textColorHint="@color/textSecond"
+                android:textSize="@dimen/font_18" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black_alpha_32" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/black_alpha_32" />
 
-                <EditText
-                    android:id="@+id/edit_QQ"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/len_44"
-                    android:layout_marginEnd="@dimen/len_2"
-                    android:layout_marginStart="@dimen/len_8"
-                    android:background="@null"
-                    android:hint="@string/person_qq"
-                    android:paddingBottom="@dimen/len_8"
-                    android:paddingTop="@dimen/len_8"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/textPrimary"
-                    android:textColorHint="@color/textSecond"
-                    android:textCursorDrawable="@drawable/ic_cursor"
-                    android:textSize="@dimen/font_18" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/black_alpha_32" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black_alpha_32" />
+            <TextView
+                android:id="@+id/txt_job"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/len_2"
+                android:layout_marginStart="@dimen/len_4"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/person_job"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/len_8"
+                android:paddingTop="@dimen/len_8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/black"
+                android:textColorHint="@color/textSecond"
+                android:textSize="@dimen/font_18" />
 
-                <EditText
-                    android:id="@+id/edit_wechat"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/len_44"
-                    android:layout_marginEnd="@dimen/len_2"
-                    android:layout_marginStart="@dimen/len_8"
-                    android:background="@null"
-                    android:hint="@string/person_wechat"
-                    android:paddingBottom="@dimen/len_8"
-                    android:paddingTop="@dimen/len_8"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/textPrimary"
-                    android:textColorHint="@color/textSecond"
-                    android:textCursorDrawable="@drawable/ic_cursor"
-                    android:textSize="@dimen/font_18" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/black_alpha_32" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black_alpha_32" />
+            <TextView
+                android:id="@+id/txt_address"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/len_2"
+                android:layout_marginStart="@dimen/len_4"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/person_address"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/len_8"
+                android:paddingTop="@dimen/len_8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/black"
+                android:textColorHint="@color/textSecond"
+                android:textSize="@dimen/font_18" />
 
-                <EditText
-                    android:id="@+id/edit_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/len_44"
-                    android:layout_marginEnd="@dimen/len_2"
-                    android:layout_marginStart="@dimen/len_8"
-                    android:background="@null"
-                    android:hint="@string/person_email"
-                    android:paddingBottom="@dimen/len_8"
-                    android:paddingTop="@dimen/len_8"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/textPrimary"
-                    android:textColorHint="@color/textSecond"
-                    android:textCursorDrawable="@drawable/ic_cursor"
-                    android:textSize="@dimen/font_18" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/black_alpha_32" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black_alpha_32" />
+            <TextView
+                android:id="@+id/txt_QQ"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/len_2"
+                android:layout_marginStart="@dimen/len_4"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/person_qq"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/len_8"
+                android:paddingTop="@dimen/len_8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/black"
+                android:textColorHint="@color/textSecond"
+                android:textSize="@dimen/font_18" />
 
-                <LinearLayout
-                    android:id="@+id/lay_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/len_44"
-                    android:orientation="horizontal">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/black_alpha_32" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/len_2"
-                        android:layout_marginStart="@dimen/len_8"
-                        android:layout_weight="1"
-                        android:gravity="start|center"
-                        android:text="@string/person_group"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/font_18" />
+            <TextView
+                android:id="@+id/txt_wechat"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/len_2"
+                android:layout_marginStart="@dimen/len_4"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/person_wechat"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/len_8"
+                android:paddingTop="@dimen/len_8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/black"
+                android:textColorHint="@color/textSecond"
+                android:textSize="@dimen/font_18" />
 
-                    <TextView
-                        android:id="@+id/txt_group_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:textColor="@color/textSecond"
-                        android:hint="@string/no_group_name"
-                        android:textColorHint="@color/textSecond"
-                        android:textSize="@dimen/font_14" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/black_alpha_32" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/len_4"
-                        android:src="@drawable/ic_chevron_right" />
-                </LinearLayout>
-            </LinearLayout>
+            <TextView
+                android:id="@+id/txt_email"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/len_2"
+                android:layout_marginStart="@dimen/len_4"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/person_email"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/len_8"
+                android:paddingTop="@dimen/len_8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/black"
+                android:textColorHint="@color/textSecond"
+                android:textSize="@dimen/font_18" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/black_alpha_32" />
+
+            <TextView
+                android:id="@+id/txt_group"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/len_2"
+                android:layout_marginStart="@dimen/len_4"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/person_group"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/len_8"
+                android:paddingTop="@dimen/len_8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/black"
+                android:textColorHint="@color/textSecond"
+                android:textSize="@dimen/font_18" />
         </LinearLayout>
 
     </ScrollView>
-
 </LinearLayout>

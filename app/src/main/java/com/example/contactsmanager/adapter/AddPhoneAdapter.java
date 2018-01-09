@@ -22,7 +22,7 @@ import java.util.List;
 
 public class AddPhoneAdapter extends RecyclerView.Adapter<AddPhoneAdapter.ViewHolder> {
 
-    private ArrayList<String> mPhoneList;
+    private List<String> mPhoneList;
 
     public AddPhoneAdapter() {
         mPhoneList = new ArrayList<>();
@@ -30,7 +30,7 @@ public class AddPhoneAdapter extends RecyclerView.Adapter<AddPhoneAdapter.ViewHo
         mPhoneList.add("");
     }
 
-    public AddPhoneAdapter(ArrayList<String> list) {
+    public AddPhoneAdapter(List<String> list) {
         this.mPhoneList = list;
     }
 
@@ -43,6 +43,7 @@ public class AddPhoneAdapter extends RecyclerView.Adapter<AddPhoneAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final ViewHolder viewHolder = holder;
+        String phone = mPhoneList.get(position);
         //添加新的号码
         viewHolder.addIm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +65,7 @@ public class AddPhoneAdapter extends RecyclerView.Adapter<AddPhoneAdapter.ViewHo
                 notifyDataSetChanged();
             }
         });
+        viewHolder.phoneEt.setText(phone+"");
         // 定位到最后面
         if (viewHolder.phoneEt.getText() != null) {
             viewHolder.phoneEt.setSelection(viewHolder.phoneEt.getText().toString().length());
@@ -98,6 +100,7 @@ public class AddPhoneAdapter extends RecyclerView.Adapter<AddPhoneAdapter.ViewHo
     public List<String> getPhoneList() {
         return mPhoneList;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

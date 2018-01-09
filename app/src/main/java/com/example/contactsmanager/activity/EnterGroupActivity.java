@@ -102,10 +102,12 @@ public class EnterGroupActivity extends AppCompatActivity implements PersonAdapt
         }
     }
 
-    // TODO 在群成员列表，点击事件的实现
+    // 在群成员列表，点击事件的实现
     @Override
     public void onItemClick(Person person, int position) {
-
+        Intent intent = new Intent(this, ShowPersonDetailsActivity.class);
+        intent.putExtra("person", person);
+        startActivity(intent);
     }
 
     @Override

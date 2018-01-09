@@ -1,18 +1,17 @@
 package com.example.contactsmanager.activity;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.contactsmanager.R;
-import com.example.contactsmanager.adapter.AddPhoneAdapter;
 import com.example.contactsmanager.adapter.ShowPhoneAdapter;
 import com.example.contactsmanager.bean.Contact;
 import com.example.contactsmanager.bean.Person;
@@ -33,91 +32,143 @@ import butterknife.OnClick;
 
 public class ShowPersonDetailsActivity extends AppCompatActivity {
 
-    @BindView(R.id.txt_portrait)
-    TextView portraitTv;
-    @BindView(R.id.edit_name)
-    EditText nameEt;
-    @BindView(R.id.edit_gender)
-    EditText genderEt;
-    @BindView(R.id.edit_job)
-    EditText jobEt;
-    @BindView(R.id.edit_address)
-    EditText addressEt;
-    @BindView(R.id.edit_QQ)
-    EditText QQEt;
-    @BindView(R.id.edit_wechat)
-    EditText wechatEt;
-    @BindView(R.id.edit_email)
-    EditText emailEt;
-    @BindView(R.id.lay_group)
-    LinearLayout layout;
-    @BindView(R.id.txt_group_name)
-    TextView groupTv;
     @BindView(R.id.recycler_phone)
-    RecyclerView mPhoneRecycler;
-    @BindView(R.id.im_edit)
-    ImageView editIm;
+    RecyclerView mRecycler;
+    @BindView(R.id.txt_name)
+    TextView nameTv;
+    @BindView(R.id.txt_gender)
+    TextView genderTv;
+    @BindView(R.id.txt_job)
+    TextView jobTv;
+    @BindView(R.id.txt_address)
+    TextView addressTv;
+    @BindView(R.id.txt_QQ)
+    TextView QQTv;
+    @BindView(R.id.txt_wechat)
+    TextView wechatTv;
+    @BindView(R.id.txt_email)
+    TextView emailTv;
+    @BindView(R.id.txt_group)
+    TextView groupTv;
 
-    private ShowPhoneAdapter mAdapter;
+    private Person person;
     private ContactsDB mContactsDB;
-    private boolean isEdit = false; // 用于判断是显示详细信息或编辑
-    private List<Contact> contactList;
-    Person person;
+    private List<Contact> mContactList;
+    private List<String> mPhoneList;
+    private ShowPhoneAdapter mAdapter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_details);
-        ButterKnife.bind(this);
         init();
-
     }
 
     // 初始化信息
     private void init() {
-        Intent intent = getIntent();
-        person = (Person) intent.getSerializableExtra("person");
-        //  Log.d("TAG", person.toString());
-        contactList = mContactsDB.queryContacts(person.getPid());
-        person.setContactList((ArrayList<Contact>) contactList);
-        if (contactList.size() == 0) {
-            mAdapter = new ShowPhoneAdapter();
-        } else {
-            ArrayList<String> list = new ArrayList<>();
-            for (Contact contact : contactList) {
-                list.add(contact.getPhone());
+        ButterKnife.bind(this);
+        person = (Person) getIntent().getSerializableExtra("person");
+        mContactsDB = ContactsDB.getInstance(this);
+        mContactList = new ArrayList<>();
+        mPhoneList = new ArrayList<>();
+        mContactList = mContactsDB.queryContacts(person.getPid());
+        if (mContactList.size() != 0) {
+            for (Contact c : mContactList) {
+                mPhoneList.add(c.getPhone());
             }
-            mAdapter = new ShowPhoneAdapter(list);
         }
-        mPhoneRecycler.setAdapter(mAdapter);
-        mPhoneRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new ShowPhoneAdapter(mPhoneList);
+        mRecycler.setAdapter(mAdapter);
+        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+        showPerson(person);
     }
 
+    // 显示联系人的信息
+    private void showPerson(Person p) {
+        if (TextUtils.isEmpty(p.getPname())) {
+            nameTv.setText(getString(R.string.new_contact));
+        } else {
+            nameTv.setText(p.getPname());
+        }
+        if (TextUtils.isEmpty(p.getGender())) {
+            genderTv.setVisibility(View.GONE);
+        } else {
+            genderTv.setVisibility(View.VISIBLE);
+            genderTv.setText("性别："+p.getGender());
+        }
+        if (TextUtils.isEmpty(p.getJob())) {
+            jobTv.setVisibility(View.GONE);
+        } else {
+            jobTv.setVisibility(View.VISIBLE);
+            jobTv.setText("工作："+p.getJob());
+        }
 
-    // TODO 使控件可选和不可选
-    private void editUnable() {
-        nameEt.setEnabled(false);
-        genderEt.setEnabled(false);
-        jobEt.setEnabled(false);
-
-    }
-
-
-    @OnClick(R.id.im_back)
-    void back() {
-        finish();
+        if (TextUtils.isEmpty(p.getAddress())) {
+            addressTv.setVisibility(View.GONE);
+        } else {
+            addressTv.setVisibility(View.VISIBLE);
+            addressTv.setText("住址："+p.getAddress());
+        }
+        if (p.getQQ() == 0) {
+            QQTv.setVisibility(View.GONE);
+        } else {
+            QQTv.setVisibility(View.VISIBLE);
+            QQTv.setText("QQ："+p.getQQ());
+        }
+        if (TextUtils.isEmpty(p.getWechat())) {
+            wechatTv.setVisibility(View.GONE);
+        } else {
+            wechatTv.setVisibility(View.VISIBLE);
+            wechatTv.setText("微信："+p.getWechat());
+        }
+        if (TextUtils.isEmpty(p.getEmail())) {
+            emailTv.setVisibility(View.GONE);
+        } else {
+            emailTv.setVisibility(View.VISIBLE);
+            emailTv.setText("邮箱："+p.getEmail());
+        }
+        if (p.getGid() == 0) {
+            groupTv.setVisibility(View.GONE);
+        } else {
+            groupTv.setVisibility(View.VISIBLE);
+            groupTv.setText("群组："+ mContactsDB.queryGnameByGid(p.getGid()));
+        }
     }
 
     @OnClick(R.id.im_edit)
-    void edit() {
-        // TODO 非编辑模式下，显示详细信息
-        if (!isEdit) {
+    void editOnClick() {
+        Intent intent = new Intent(this, EditPersonActivity.class);
+        intent.putExtra("person", person);
+        startActivityForResult(intent, 1);
+    }
 
-        }
-        // TODO 编辑模式下，编辑联系人信息，并更新到数据库
-        else {
+    @OnClick(R.id.im_back)
+    void onBackClick() {
+        finish();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                person = (Person) data.getSerializableExtra("person");
+                mContactList = mContactsDB.queryContacts(person.getPid());
+                if (mContactList.size() != 0) {
+                    if (mPhoneList.size() != 0) {
+                        mPhoneList.clear();
+                    }
+                    for (Contact c : mContactList) {
+                        mPhoneList.add(c.getPhone());
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+                showPerson(person);
+                break;
+            default:
+                break;
         }
     }
+
 
 }

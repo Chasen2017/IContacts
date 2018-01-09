@@ -41,4 +41,18 @@ public class Utils {
     public static void showToast(@StringRes int msgId) {
         showToast(MyApplication.getContext().getString(msgId));
     }
+
+    /**
+     * 得到姓名的最后一个字符，将其设置为头像
+     *
+     * @param name 姓名
+     * @return 返回姓名最后一个字符
+     */
+    public static String getFinalName(String name) {
+        name = name.trim();
+        if (name.length() == 1) {
+            return name;
+        }
+        return name.substring(name.length() - 1, name.length());
+    }
 }

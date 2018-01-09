@@ -34,4 +34,6 @@
     <string name="error_gender">性别输入错误，请重新输入！</string>
     <string name="choose_group">选择群组</string>
     <string name="person_details">联系人详细信息</string>
+    <string name="update_success">更新成功！</string>
+    <string name="edit_contact">修改联系人信息</string>
 </resources>

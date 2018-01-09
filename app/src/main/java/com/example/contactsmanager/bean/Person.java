@@ -173,7 +173,4 @@ public class Person implements Comparable<Person>, Serializable {
         return instance.compare(this.pname, o.pname);
     }
 
-
-
-
 }

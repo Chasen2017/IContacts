@@ -24,8 +24,6 @@ import com.example.contactsmanager.bean.Person;
 import com.example.contactsmanager.db.ContactsDB;
 import com.example.contactsmanager.utils.Utils;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +32,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Chsen on 2018/1/6.
- * <p>
- * 添加联系人的Activity，包括添加联系人的基本信息和联系方式
+ * Created by Chsen on 2018/1/9.
+ *
+ * 编辑联系人信息
  */
 
-public class AddPersonActivity extends AppCompatActivity {
+public class EditPersonActivity extends AppCompatActivity {
 
+    @BindView(R.id.txt_title)
+    TextView titleTv;
+    @BindView(R.id.txt_portrait)
+    TextView portraitTv;
     @BindView(R.id.edit_name)
     EditText nameEt;
     @BindView(R.id.edit_gender)
@@ -66,15 +68,10 @@ public class AddPersonActivity extends AppCompatActivity {
 
     private AddPhoneAdapter mAdapter;
     private ContactsDB mContactsDB;
+    private Person person;
+    private List<Contact> mContactList;
+    private List<String> mPhoneList;
 
-    /**
-     * AddPersonActivity的入口方法
-     *
-     * @param context 上下文，从哪里跳转过来的
-     */
-    public static void show(Context context) {
-        context.startActivity(new Intent(context, AddPersonActivity.class));
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,10 +82,50 @@ public class AddPersonActivity extends AppCompatActivity {
     }
 
     private void init() {
-        mAdapter = new AddPhoneAdapter();
+        titleTv.setText(getString(R.string.edit_contact));
+        mContactsDB = ContactsDB.getInstance(this);
+        person = (Person) getIntent().getSerializableExtra("person");
+        mContactList = new ArrayList<>();
+        mPhoneList = new ArrayList<>();
+        mContactList = mContactsDB.queryContacts(person.getPid());
+        if (mContactList.size() != 0) {
+            for (Contact c : mContactList) {
+                mPhoneList.add(c.getPhone());
+            }
+            mAdapter = new AddPhoneAdapter(mPhoneList);
+        } else {
+            mAdapter = new AddPhoneAdapter();
+        }
         mPhoneRecycler.setAdapter(mAdapter);
         mPhoneRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mContactsDB = ContactsDB.getInstance(this);
+        showPerson();
+    }
+
+    // 显示联系人的信息
+    private void showPerson() {
+        if (!TextUtils.isEmpty(person.getPname())) {
+            portraitTv.setText(Utils.getFinalName(person.getPname()));
+        }
+        nameEt.setText(person.getPname()+"");
+        genderEt.setText(person.getGender()+"");
+        addressEt.setText(person.getAddress()+"");
+        jobEt.setText(person.getJob()+"");
+        if (person.getQQ() == 0) {
+            QQEt.setText("");
+        } else {
+            QQEt.setText(person.getQQ()+"");
+        }
+        wechatEt.setText(person.getWechat()+"");
+        if (!TextUtils.isEmpty(person.getEmail())) {
+            emailEt.setText(person.getEmail()+"");
+        } else {
+            emailEt.setText("");
+        }
+
+        if (person.getGid() != 0) {
+            String groupName = mContactsDB.queryGnameByGid(person.getPid());
+            groupTv.setText(groupName);
+        }
     }
 
     /**
@@ -96,6 +133,9 @@ public class AddPersonActivity extends AppCompatActivity {
      */
     @OnClick(R.id.im_cancel)
     void onCancelClick() {
+        Intent intent = new Intent();
+        intent.putExtra("person", person);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -110,7 +150,6 @@ public class AddPersonActivity extends AppCompatActivity {
         submitBtn.requestFocus();
         submitBtn.requestFocusFromTouch();
         // person类赋值校验
-        Person person = new Person();
         String pname = nameEt.getText().toString().trim();
         String gender = genderEt.getText().toString().trim();
         String address = addressEt.getText().toString().trim();
@@ -158,19 +197,23 @@ public class AddPersonActivity extends AppCompatActivity {
             }
         }
         // 插入到TB_PERSON
-        mContactsDB.insertPerson(person);
-        pid = mContactsDB.queryPidByPname(person.getPname());
+        mContactsDB.updatePerson(person);
+        // 删除TB_CONTACT原来有的号码
+        mContactsDB.delContactsByPid(person.getPid());
+        pid = person.getPid();
         // 遍历号码，插入到TB_CONTACT
         ArrayList<String> phoneList = (ArrayList<String>) mAdapter.getPhoneList();
-        for (String phone : phoneList) {
-            if (!"".equals(phone)) {
-                Contact contact = new Contact(phone, pid);
-                mContactsDB.insertContact(contact);
+        if (phoneList.size() != 0) {
+            for (String phone : phoneList) {
+                if (!"".equals(phone)) {
+                    Contact contact = new Contact(phone, pid);
+                    mContactsDB.insertContact(contact);
+                }
             }
         }
-        //post一个事件到PersonFragment
-        EventBus.getDefault().post(person);
-        Utils.showToast(R.string.add_success);
+        Intent intent = new Intent();
+        intent.putExtra("person", person);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -202,4 +245,9 @@ public class AddPersonActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        onCancelClick();
+    }
 }

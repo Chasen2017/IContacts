@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.contactsmanager.R;
 import com.example.contactsmanager.bean.Person;
+import com.example.contactsmanager.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +50,7 @@ public class PersonAdapter extends RecyclerView.Adapter {
             viewHolder.portraitTv.setText("-");
             viewHolder.nameTv.setText("-");
         } else {
-            viewHolder.portraitTv.setText(getFinalName(person.getPname()));
+            viewHolder.portraitTv.setText(Utils.getFinalName(person.getPname()));
             viewHolder.nameTv.setText(person.getPname());
         }
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -65,20 +66,6 @@ public class PersonAdapter extends RecyclerView.Adapter {
                 return false;
             }
         });
-    }
-
-    /**
-     * 得到姓名的最后一个字符，将其设置为头像
-     *
-     * @param name 姓名
-     * @return 返回姓名最后一个字符
-     */
-    private String getFinalName(String name) {
-        name = name.trim();
-        if (name.length() == 1) {
-            return name;
-        }
-        return name.substring(name.length() - 1, name.length());
     }
 
     @Override

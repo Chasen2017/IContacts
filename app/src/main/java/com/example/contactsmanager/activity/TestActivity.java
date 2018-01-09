@@ -20,6 +20,8 @@ import butterknife.OnClick;
 
 /**
  * Created by asus-pc on 2018/1/5.
+ *
+ * 用于向数据库添加初始化信息
  */
 
 public class TestActivity extends AppCompatActivity {
